@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import SearchBar from './components/header/SearchBar';
 import PopularMoviesList from './components/body/PopularMoviesList';
-import PopularClick from './components/header/PopularClick';
+import PopularButton from './components/header/PopularButton';
 class App extends Component {
     constructor()
     {
@@ -36,11 +35,11 @@ class App extends Component {
      return ( 
       <div>
         <SearchBar/>
-        <PopularClick showpopular='true' clickHandler={this.showPopularHandler}></PopularClick>
-        <PopularClick showpopular='false' clickHandler={this.hidePopularHandler}></PopularClick>
+        <PopularButton showpopular='true' clickHandler={this.showPopularHandler}></PopularButton>
+        <PopularButton showpopular='false' clickHandler={this.hidePopularHandler}></PopularButton>
          {/* <button onClick={() => this.showPopularHandler()}>View Popular Movies</button>
         <button onClick={() => this.hidePopularHandler()}>Hide Popular Movies</button>  */}
-        <PopularMoviesList viewMovie={this.state.viewPopularMovies}></PopularMoviesList> 
+        <PopularMoviesList style={{width: '100%',alignItems: 'center'}} viewMovie={this.state.viewPopularMovies}></PopularMoviesList> 
         
       </div>
      );
