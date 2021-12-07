@@ -8,17 +8,37 @@ class App extends Component {
     {
       super()
       this.state={
-        viewPopularMovies:false
+        viewPopularMovies:false,
+        moviesList :[],
+        viewSimilarMovies:false
       }
       //binding events
       this.showPopularHandler=this.showPopularHandler.bind(this)
       this.hidePopularHandler=this.hidePopularHandler.bind(this)
+      this.showSimilarMoviesHandler = this.showSimilarMoviesHandler.bind(this)
     }
-   showPopularHandler() {
-    //set the state of viewPopularmovie flag to true and pass the result to MoviesList Component which will display result i.e popular movies
+   async showSimilarMoviesHandler(title){
+    const response = await fetch(`http://127.0.0.1:8000/v1/similar?title=${title}`);
+    const data = await response.json();
+    console.log("data",data);
     this.setState(
       {
-        viewPopularMovies:true
+        viewPopularMovies:false,
+        moviesList: data,
+        viewSimilarMovies:true
+      }
+    ) 
+   }
+   async showPopularHandler() {
+    //set the state of viewPopularmovie flag to true and pass the result to MoviesList Component which will display result i.e popular movies
+    const response = await fetch('http://127.0.0.1:8000/v1/popular');
+    console.log("reponse",response)
+    const data = await response.json();
+    
+    this.setState(
+      {
+        viewPopularMovies:true,
+        moviesList: data
       }
     )  
   }
@@ -34,13 +54,12 @@ class App extends Component {
    {
      return ( 
       <div>
-        <SearchBar/>
+        <SearchBar clickHandler={this.showSimilarMoviesHandler}/>
         <PopularButton showpopular='true' clickHandler={this.showPopularHandler}></PopularButton>
         <PopularButton showpopular='false' clickHandler={this.hidePopularHandler}></PopularButton>
-         {/* <button onClick={() => this.showPopularHandler()}>View Popular Movies</button>
-        <button onClick={() => this.hidePopularHandler()}>Hide Popular Movies</button>  */}
-        <PopularMoviesList style={{width: '100%',alignItems: 'center'}} viewMovie={this.state.viewPopularMovies}></PopularMoviesList> 
-        
+        { this.state.viewPopularMovies && <PopularMoviesList style={{width: '100%',alignItems: 'center'}} viewMovie={this.state.viewPopularMovies} movieList ={this.state.moviesList} title="20 Most Popular movies"></PopularMoviesList>} 
+        { this.state.viewSimilarMovies && <PopularMoviesList style={{width: '100%',alignItems: 'center'}} viewMovie={this.state.viewPopularMovies} movieList ={this.state.moviesList} title="Similar movies"></PopularMoviesList>} 
+
       </div>
      );
    }

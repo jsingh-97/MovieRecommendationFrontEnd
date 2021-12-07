@@ -1,32 +1,23 @@
 import React, { Component } from 'react'
 import '../../css/searchBar.css'
-class SearchBar extends Component{
-    constructor()
-    {
-        super();
-        // this is how usually event binding is done as per ES6 
-        //this.inputRef=React.createRef();
-    }
-   
-     
-    componentDidMount()
-    {
-       
-    }
-    render(){
+import { useRef} from "react";
+function SearchBar(props){
+    const titleInputRef = useRef();
+        
         // inline css
         // const heading={
         //     color:'blue',
         //     fontSize:'72px',
         // }
-        const {name}=this.props
+        
         return (
             <div>
-                <h1 className='primary' style={{width: '100%',textAlign: 'center'}} > Welcome {name}</h1>
+                <h1 className='primary' style={{width: '100%',textAlign: 'center'}} > Welcome </h1>
                 <label htmlFor="search" style={{width: '100%',alignItems: 'center',} }> Search by Name</label>
-                <input type="text" style={{alignItems: 'center'} }placeholder="Avengers!!!!!!!!!"></input>
+                <input ref={titleInputRef} type="text" style={{alignItems: 'center'} }placeholder="Avengers!!!!!!!!!"></input>
+                <button onClick={()=> props.clickHandler(titleInputRef.current.value)}>Search</button>
             </div>
         )
     }
-}
+
 export default SearchBar;
